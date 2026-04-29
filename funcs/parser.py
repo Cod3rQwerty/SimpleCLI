@@ -36,7 +36,7 @@ def get_args(args: list[str]) -> tuple[list, dict]:
 
     return pargs, kwargs
     
-def parse_args(args: dict, types: dict[str, type]) -> dict:
+def parse_args(args: dict) -> dict:
     parsed_args = {}
     for key, value in args.items():
         try:

@@ -37,7 +37,7 @@ def run():
     params = inspect.signature(func).parameters
     combined_args = bind_args(pargs, kwargs, params)
 
-    parsed_args = parse_args(combined_args, types)
+    parsed_args = parse_args(combined_args)
     casted_args = cast_args(parsed_args, types)
 
     func(**casted_args)    
