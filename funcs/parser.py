@@ -1,3 +1,5 @@
+import ast
+
 class PosAfterKwargError(Exception):
     pass
 
@@ -33,3 +35,12 @@ def get_args(args: list[str]) -> tuple[list, dict]:
                 pargs.append(arg)
 
     return pargs, kwargs
+    
+def parse_args(args: dict, types: dict[str, type]) -> dict:
+    parsed_args = {}
+    for key, value in args.items():
+        try:
+            parsed_args[key] = ast.literal_eval(value)
+        except Exception as e:
+            raise ValueError(f"Could not parse argument '{key}' with value '{value}': {e}")
+    return parsed_args

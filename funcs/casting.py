@@ -1,5 +1,3 @@
-from pprint import pprint
-
 
 def cast_args(args: dict, types: dict[str, type]) -> dict:
     casted_args = {}
@@ -18,5 +16,4 @@ def cast_args(args: dict, types: dict[str, type]) -> dict:
                 f"Could not cast argument '{key}' with value '{value}' to {caster.__name__}: {e}"
             )
     
-    pprint(f"casted_args: {casted_args}")
     return casted_args

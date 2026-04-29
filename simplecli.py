@@ -3,7 +3,7 @@ import sys
 
 from funcs.binder import bind_args
 from funcs.casting import cast_args
-from funcs.parser import get_args, PosAfterKwargError
+from funcs.parser import get_args, parse_args, PosAfterKwargError
 from funcs.registry import registry
 
 from funcs.registry import add
@@ -37,6 +37,7 @@ def run():
     params = inspect.signature(func).parameters
     combined_args = bind_args(pargs, kwargs, params)
 
-    casted_args = cast_args(combined_args, types)
+    parsed_args = parse_args(combined_args, types)
+    casted_args = cast_args(parsed_args, types)
 
     func(**casted_args)    
