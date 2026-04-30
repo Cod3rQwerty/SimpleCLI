@@ -25,19 +25,16 @@ def run():
 
     try:
         pargs, kwargs = get_args(args)
-    except PosAfterKwargError as e:
+
+        func, types = registry[command]
+
+        params = inspect.signature(func).parameters
+        combined_args = bind_args(pargs, kwargs, params)
+
+        parsed_args = parse_args(combined_args)
+        casted_args = cast_args(parsed_args, types)
+
+    except (ValueError, TypeError, PosAfterKwargError) as e:
         print(f"Error: {e}")
-        return
-    except Exception as e:
-        print(f"Error: {e}")
-        return
-
-    func, types = registry[command]
-
-    params = inspect.signature(func).parameters
-    combined_args = bind_args(pargs, kwargs, params)
-
-    parsed_args = parse_args(combined_args)
-    casted_args = cast_args(parsed_args, types)
-
-    func(**casted_args)    
+    
+    func(**casted_args)
