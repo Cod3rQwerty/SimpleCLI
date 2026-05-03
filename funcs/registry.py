@@ -1,3 +1,5 @@
+# registry.py
+
 import inspect
 
 registry = {}
