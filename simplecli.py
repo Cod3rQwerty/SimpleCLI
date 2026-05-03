@@ -36,5 +36,6 @@ def run():
 
     except (ValueError, TypeError, PosAfterKwargError) as e:
         print(f"Error: {e}")
+        return
     
-    func(**casted_args)
+    print(func(**casted_args))

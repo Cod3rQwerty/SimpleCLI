@@ -42,5 +42,6 @@ def parse_args(args: dict) -> dict:
         try:
             parsed_args[key] = ast.literal_eval(value)
         except Exception as e:
-            raise ValueError(f"Could not parse argument '{key}' with value '{value}': {e}")
+            # fallback - treat as raw string
+            parsed_args[key] = value
     return parsed_args
