@@ -8,6 +8,8 @@ from funcs.casting import cast_args
 from funcs.parser import get_args, parse_args, PosAfterKwargError
 from funcs.registry import registry
 
+from funcs.registry import add  # unused, but allows users to import `add` directly from `simplecli`
+
 
 def run():
     """
