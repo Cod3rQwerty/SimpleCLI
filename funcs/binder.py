@@ -8,6 +8,9 @@ def bind_args(pargs, kwargs, params):
     - "bind" means matching incoming arguments (pargs/kwargs)
       to the function's formal parameters.
 
+    - "function signature" refers to the parameters defined in the function's definition,
+      which can be inspected using `inspect.signature(func).parameters`.
+
     This is similar to how Python internally maps:
         func(1, b=2) → a=1, b=2
 
