@@ -5,7 +5,7 @@ from typing import Callable
 import inspect
 
 class registry_entry:
-    def __init__(self, name, func, types, print_result):
+    def __init__(self, name: str, func: Callable, types: dict[str, type], print_result: bool):
         self.name = name
         self.func = func
         self.types = types
