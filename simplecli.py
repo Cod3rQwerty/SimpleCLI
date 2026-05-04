@@ -77,4 +77,7 @@ def run():
         print(f"Error: {e}")
         return
 
-    print(func(**casted_args))
+    if entry.print_result:
+        print(func(**casted_args))
+    else:
+        func(**casted_args)
