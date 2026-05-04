@@ -1,6 +1,8 @@
 # binder.py
+from collections.abc import Mapping
+import inspect
 
-def bind_args(pargs, kwargs, params):
+def bind_args(pargs: list, kwargs: dict, flags: set, params: Mapping[str, inspect.Parameter]) -> dict:
     """
     Bind raw positional and keyword arguments to a function signature.
 
@@ -17,6 +19,7 @@ def bind_args(pargs, kwargs, params):
     Parameters:
         pargs: list of positional arguments (from CLI input)
         kwargs: dict of keyword arguments (from CLI input)
+        flags: set of flag arguments (from CLI input)
         params: inspect.signature(func).parameters
 
     Returns:
@@ -62,10 +65,12 @@ def bind_args(pargs, kwargs, params):
             else:
                 raise TypeError(f"Missing required argument: {name}")
 
-        # keyword-only arguments (*, a=1 style)
+        # keyword-only arguments eg. (*, a=1)
         elif param.kind == param.KEYWORD_ONLY:
             if name in kwargs:
                 result[name] = kwargs.pop(name)
+            elif name in flags and param.annotation == bool and param.default in (True, False): # only allow flag if parameter is in format `flag: bool = True/False`
+                result[name] = True if param.default is False else False
             elif param.default is not param.empty:
                 result[name] = param.default
             else:

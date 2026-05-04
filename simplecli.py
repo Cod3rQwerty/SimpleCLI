@@ -45,14 +45,14 @@ def run():
     args = argv[2:]
 
     try:
-        pargs, kwargs = get_args(args)
+        pargs, kwargs, flags = get_args(args)
 
         func, types = registry[command]
 
         params = inspect.signature(func).parameters
 
         # bind = match CLI args → function parameters
-        combined_args = bind_args(pargs, kwargs, params)
+        combined_args = bind_args(pargs, kwargs, flags, params)
 
         parsed_args = parse_args(combined_args)
 
