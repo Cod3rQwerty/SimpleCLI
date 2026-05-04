@@ -1,5 +1,6 @@
 # registry.py
 from __future__ import annotations
+from typing import Callable
 
 import inspect
 
@@ -44,8 +45,7 @@ def infer_func_parameter_types(func):
         if param.annotation is not inspect._empty
     }
 
-
-def add(name, func, types: dict[str, type] | None = None, *, infer_types=False, print_result=False):
+def add(name: str, func: Callable, types: dict[str, type] | None = None, *, infer_types=True, print_result=False):
     """
     Register a function in the CLI registry.
 
