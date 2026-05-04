@@ -10,6 +10,7 @@ from funcs.registry import registry
 
 from funcs.registry import add  # unused, but allows users to import `add` directly from `simplecli`
 
+EARLY_EXIT_FLAGS = {"help", "h", "?"}
 
 def run():
     """
@@ -46,6 +47,15 @@ def run():
 
     try:
         pargs, kwargs, flags = get_args(args)
+
+        early_exit_flags_used = EARLY_EXIT_FLAGS.intersection(flags)
+
+        if early_exit_flags_used:
+            for flag in early_exit_flags_used:
+                if flag in {"help", "h", "?"}:
+                    print(f"Help for command '{command}':")
+                    print(registry[command][0].__doc__)
+                    return
 
         func, types = registry[command]
 
