@@ -1,9 +1,29 @@
 # registry.py
+from __future__ import annotations
 
 import inspect
 
-registry = {}
+class registry_entry:
+    def __init__(self, name, func, types, print_result):
+        self.name = name
+        self.func = func
+        self.types = types
+        self.print_result = print_result
 
+class registry_class:
+    def __init__(self):
+        self.entries: set[registry_entry] = set()
+
+    def add(self, entry: registry_entry):
+        self.entries.add(entry)
+
+    def get(self, name: str) -> registry_entry:
+        for entry in self.entries:
+            if entry.name == name:
+                return entry
+        raise KeyError(f"Command '{name}' not found in registry.")
+
+registry: registry_class = registry_class()
 
 def infer_func_parameter_types(func):
     """
@@ -25,7 +45,7 @@ def infer_func_parameter_types(func):
     }
 
 
-def add(name, func, types: dict[str, type] | None = None, *, infer_types=False):
+def add(name, func, types: dict[str, type] | None = None, *, infer_types=False, print_result=False):
     """
     Register a function in the CLI registry.
 
@@ -52,4 +72,4 @@ def add(name, func, types: dict[str, type] | None = None, *, infer_types=False):
         else:
             types = types or {}
 
-    registry[name] = (func, types)
+    registry.entries.add(registry_entry(name, func, types, print_result))

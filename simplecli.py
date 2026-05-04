@@ -39,7 +39,9 @@ def run():
 
     command = argv[1]
 
-    if command not in registry:
+    try:
+        entry = registry.get(command)
+    except KeyError:
         print(f"Unknown command: {command}")
         return
 
@@ -54,10 +56,12 @@ def run():
             for flag in early_exit_flags_used:
                 if flag in {"help", "h", "?"}:
                     print(f"Help for command '{command}':")
-                    print(registry[command][0].__doc__)
+                    print(registry.get(command).func.__doc__)
                     return
 
-        func, types = registry[command]
+        entry = registry.get(command)
+        func = entry.func
+        types = entry.types
 
         params = inspect.signature(func).parameters
 
